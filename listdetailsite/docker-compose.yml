@@ -20,7 +20,7 @@ services:
       - VALIDATION=duckdns
       - STAGING=false
     volumes:
-      - /home/<your user here>/data/swag:/config
+      - /home/josh/data/swag:/config
     ports:
     - 0.0.0.0:3141:443
     restart: unless-stopped
