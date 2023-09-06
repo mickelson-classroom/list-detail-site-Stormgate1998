@@ -56,7 +56,7 @@ const App = () => {
       {addingNew === false ? (
         <div>
           <div>
-            <button onClick={() =>{ 
+            <button className="btn btn-primary" onClick={() =>{ 
               setAddingNew(true)
               setSelectedItem(undefined)}
             }>Add New Item</button>
