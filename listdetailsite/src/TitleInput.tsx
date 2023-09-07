@@ -9,7 +9,7 @@ export const TitleInput: FC<{ onChange: (i: string) => void }> = ({
     onChange(titleInput);
   }, [titleInput]);
   return (
-    <input
+    <input className="form-control"
       value={titleInput}
       onChange={(e) => {
         setTitleUserInput(e.target.value);

@@ -71,9 +71,7 @@ const App = () => {
   <div className="row align-items-start">
     {filteredItems.map((i) => (
       <div className="col-lg-3 col-md-4 col-sm-6 col-12" key={i.id}>
-        <div>
           <Item onClick={(b) => setSelectedItem(b)} item={i} />
-        </div>
       </div>
     ))}
   </div>
@@ -85,19 +83,19 @@ const App = () => {
         <div className="container text-center">
           <div className="row align-items-start">
           <div className="col-lg-4 col-md-6 col-sm-12">
-          <p>Name of event</p>
+          <label className="form-label">Name of event</label>
           <TitleInput
             onChange={(newItemTitle) => setNewItemTitle(newItemTitle)}
           />
           </div>
           <div className="col-lg-4 col-md-6 col-sm-12">
-          <p>Description</p>
+          <label className="form-label">Description</label>
           <ContentInput
             onChange={(newItemContent) => setNewItemContent(newItemContent)}
           />
           </div>
             <div className="col-lg-4 col-md-6 col-sm-12">
-              <p>Submit new item</p>
+              <label className="form-label">Submit new item</label>
           <button className="btn btn-primary" onClick={addNewItem}>Add Item</button>
           </div>
           </div>

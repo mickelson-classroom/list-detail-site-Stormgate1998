@@ -9,7 +9,7 @@ export const ContentInput: FC<{ onChange: (i: string) => void }> = ({
     onChange(contentUserInput);
   }, [contentUserInput]);
   return (
-    <input
+    <input className="form-control"
       value={contentUserInput}
       onChange={(e) => {
         setContentUserInput(e.target.value);
