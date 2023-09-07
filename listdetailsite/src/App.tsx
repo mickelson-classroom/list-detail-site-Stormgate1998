@@ -67,29 +67,40 @@ const App = () => {
       />
       </div>
       <div>
-      {filteredItems.map((i) => (
+      <div className="container text-center">
+  <div className="row align-items-start">
+    {filteredItems.map((i) => (
+      <div className="col-lg-3 col-md-4 col-sm-6 col-12" key={i.id}>
         <div>
-          <Item onClick={(b) => setSelectedItem(b)} key={i.id} item={i} />
-          </div>
-        ))} 
+          <Item onClick={(b) => setSelectedItem(b)} item={i} />
+        </div>
+      </div>
+    ))}
+  </div>
+</div>
         </div>
         </div>
         
       ) : (
-        <div>
-          <div>
+        <div className="container text-center">
+          <div className="row align-items-start">
+          <div className="col-lg-4 col-md-6 col-sm-12">
           <p>Name of event</p>
           <TitleInput
             onChange={(newItemTitle) => setNewItemTitle(newItemTitle)}
           />
           </div>
-          <div>
-          <p>Description of event</p>
+          <div className="col-lg-4 col-md-6 col-sm-12">
+          <p>Description</p>
           <ContentInput
             onChange={(newItemContent) => setNewItemContent(newItemContent)}
           />
           </div>
-          <button onClick={addNewItem}>Add Item</button>
+            <div className="col-lg-4 col-md-6 col-sm-12">
+              <p>Submit new item</p>
+          <button className="btn btn-primary" onClick={addNewItem}>Add Item</button>
+          </div>
+          </div>
         </div>
       )}
     </div>
@@ -97,7 +108,7 @@ const App = () => {
     {selectedItem && (
           <div>
             <div>{selectedItem.content}</div>
-            <button onClick={() => 
+            <button className="btn btn-primary" onClick={() => 
               {deleteItem()
                 setDeleteNumber(selectedItem.id)
               setSelectedItem(undefined)}}>Delete Item</button>
