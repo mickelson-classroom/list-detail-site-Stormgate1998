@@ -24,6 +24,7 @@ const App = () => {
   const [newStepContent, setNewStepContent] = useState("")
   const [deletingStep, setDeletingStep] = useState(false)
   const [showModal, setShowModal] = useState(false);
+  const [isItemNameValid, setIsItemNameValid] = useState(false)
 
   useEffect(() => {
     setFilteredItems(
@@ -73,6 +74,14 @@ const App = () => {
     setDeletingStep(false)
   }
 
+  const checkItemNameValid = () => {
+    if (newItemTitle.length > 0){
+      setIsItemNameValid(true)
+    }else{
+      setIsItemNameValid(false)
+    }
+  }
+
 
 
   return (
@@ -111,26 +120,29 @@ const App = () => {
 
         ) : (
           <>
-            
+
             {/* Modal */}
             <Modal show={showModal} onHide={() => setShowModal(false)} size="lg">
               <Modal.Header closeButton>
                 <Modal.Title>Add New Item</Modal.Title>
               </Modal.Header>
               <Modal.Body>
+                <form>
                   <div className="container text-center">
                     <div className="row align-items-start">
                       <div className="col-lg-4 col-md-6 col-sm-12">
                         <label className="form-label m-3">Name of event</label>
-
                         <TitleInput
-                          onChange={(newItemTitle) => setNewItemTitle(newItemTitle)}
+                          onChange={(newItemTitle) => {
+                            setNewItemTitle(newItemTitle)
+                            checkItemNameValid()
+                          }}
                         />
                       </div>
                       <div className="col-lg-4 col-md-6 col-sm-12">
                         <label className="form-label">Description</label>
                         <ContentInput
-                          onChange={(newItemContent) => setNewItemContent(newItemContent)}
+                          onChange={(newItemContent) => setNewItemContent(newItemContent)} 
                         />
                       </div>
                       <div className="col-lg-4 col-md-6 col-sm-12">
@@ -138,13 +150,14 @@ const App = () => {
                         <button className="btn btn-primary m-3" onClick={addNewItem}>Add Item</button>
                       </div>
                     </div>
-                  </div> 
+                  </div>
+                </form>
               </Modal.Body>
               <Modal.Footer>
                 <Button variant="secondary" onClick={() => {
                   setShowModal(false)
                   setAddingNew(false)
-                  }}>
+                }}>
                   Close
                 </Button>
                 <Button variant="primary" onClick={addNewItem}>
@@ -185,7 +198,7 @@ const App = () => {
                 }}>Delete Step</button>
                 {addingNewStep && (
                   <>
-                    <TitleInput
+                    <ContentInput
                       onChange={(newStepContent) => setNewStepContent(newStepContent)}
                     />
                     <label className="form-label m-3" >Submit new step</label>
