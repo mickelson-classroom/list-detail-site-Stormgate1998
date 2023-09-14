@@ -2,13 +2,11 @@ import { useEffect, useState } from "react";
 import "./MyApp.css";
 import { Item } from "./Item";
 import { ToDoList, } from "./models/todolist";
-import { FilterInput } from "./FilterInput";
-import { TitleInput } from "./TitleInput";
-import { ContentInput } from "./ContentInput";
 import Modal from 'react-bootstrap/Modal';
 import React from "react";
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
+import { GenericInput } from "./GenericInput";
 
 const App = () => {
   const [items, setItems] = useState<ToDoList[]>([]);
@@ -25,7 +23,8 @@ const App = () => {
   const [deletingStep, setDeletingStep] = useState(false)
   const [showModal, setShowModal] = useState(false);
   const [isItemNameValid, setIsItemNameValid] = useState(false)
-
+  const [isContentValid, setContentValid] = useState(false)
+  const [isStepContentValid, setisStepContentValid] = useState(false)
   useEffect(() => {
     setFilteredItems(
       items.filter((b) =>
@@ -75,13 +74,27 @@ const App = () => {
   }
 
   const checkItemNameValid = () => {
-    if (newItemTitle.length > 0){
+    if (newItemTitle.length > 0) {
       setIsItemNameValid(true)
-    }else{
+    } else {
       setIsItemNameValid(false)
     }
   }
 
+  const checkContentValid = () => {
+    if (newItemContent.length > 0) {
+      setContentValid(true)
+    } else {
+      setContentValid(false)
+    }
+  }
+  const checkStepContentValid = () => {
+    if (newStepContent.length > 0) {
+      setisStepContentValid(true)
+    } else {
+      setisStepContentValid(false)
+    }
+  }
 
 
   return (
@@ -101,7 +114,7 @@ const App = () => {
               }>Add New Item</button>
             </div>
             <div my-3>
-              <FilterInput
+              <GenericInput isValid={true} invalid_feeback="This will never appear" valid_feedback="Type text to filter the tasks" label="Search"
                 onChange={(newFilterValue) => setNewFilterValue(newFilterValue)}
               />
             </div>
@@ -132,7 +145,7 @@ const App = () => {
                     <div className="row align-items-start">
                       <div className="col-lg-4 col-md-6 col-sm-12">
                         <label className="form-label m-3">Name of event</label>
-                        <TitleInput
+                        <GenericInput valid_feedback="That's a good title" invalid_feeback="That's a bad title" label="Title" isValid={isItemNameValid}
                           onChange={(newItemTitle) => {
                             setNewItemTitle(newItemTitle)
                             checkItemNameValid()
@@ -141,8 +154,11 @@ const App = () => {
                       </div>
                       <div className="col-lg-4 col-md-6 col-sm-12">
                         <label className="form-label">Description</label>
-                        <ContentInput
-                          onChange={(newItemContent) => setNewItemContent(newItemContent)} 
+                        <GenericInput valid_feedback="You're good" invalid_feeback="Please write something" label="Content" isValid={isContentValid}
+                          onChange={(newItemContent) => {
+                            setNewItemContent(newItemContent)
+                            checkContentValid()
+                          }}
                         />
                       </div>
                       <div className="col-lg-4 col-md-6 col-sm-12">
@@ -198,8 +214,10 @@ const App = () => {
                 }}>Delete Step</button>
                 {addingNewStep && (
                   <>
-                    <ContentInput
-                      onChange={(newStepContent) => setNewStepContent(newStepContent)}
+                    <GenericInput isValid={isStepContentValid} invalid_feeback="That's not a valid step" valid_feedback="That's a valid step" label="Step content"
+                      onChange={(newStepContent) => {
+                        checkStepContentValid()
+                        setNewStepContent(newStepContent)}}
                     />
                     <label className="form-label m-3" >Submit new step</label>
                     <button className="btn btn-primary m-3" onClick={addNewStep}>Add Item</button>
@@ -211,10 +229,6 @@ const App = () => {
         )}
 
       </div>
-
-
-
-
     </div>
   );
 };

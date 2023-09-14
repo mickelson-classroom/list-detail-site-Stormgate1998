@@ -27,7 +27,7 @@ export const ContentInput: FC<{ onChange: (i: string) => void }> = ({
         }}
         required />
       <div className="invalid-feedback">Please enter valid content</div>
-      <div className="valid-feedback">This is valid content</div>
+      <div className="valid-feedback success">This is valid content</div>
     </div>
   );
 };
