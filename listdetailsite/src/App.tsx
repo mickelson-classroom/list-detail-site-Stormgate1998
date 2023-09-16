@@ -7,6 +7,8 @@ import React from "react";
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import { GenericInput } from "./GenericInput";
+import GenericRadioComponent from "./GenericRadio";
+import {GenericSelect, Option } from "./GenericSelect";
 
 const App = () => {
   const [items, setItems] = useState<ToDoList[]>([]);
@@ -25,6 +27,17 @@ const App = () => {
   const [isItemNameValid, setIsItemNameValid] = useState(false)
   const [isContentValid, setContentValid] = useState(false)
   const [isStepContentValid, setisStepContentValid] = useState(false)
+  const [deletingStepIndex, setDeletingStepIndex] = useState(0)
+   const [selectedOption, setSelectedOption] = useState(1);
+  const [isOption1NotSelected, setIsOption1NotSelected] = useState(true); // New state variable
+  const options = [
+    { index: 1, value: "It's terrible" },
+    { index: 2, value: 'Eh, I have seen worse' },
+    { index: 3, value: 'So-so' },
+    { index: 4, value: 'Pretty Good' },
+    { index: 5, value: 'Fantastic' },
+  ];
+
   useEffect(() => {
     setFilteredItems(
       items.filter((b) =>
@@ -67,8 +80,11 @@ const App = () => {
   }
 
   const deleteStep = (indexToDelete: number) => {
+   
     if (selectedItem && deletingStep) {
+      console.log("deleting item, " + (deletingStep == true).toString())
       selectedItem.steps = selectedItem.steps.filter(item => item.index !== indexToDelete)
+      console.log(selectedItem.steps)
     }
     setDeletingStep(false)
   }
@@ -96,9 +112,22 @@ const App = () => {
     }
   }
 
+   const handleSelectChange = (value: number) => {
+    setSelectedOption(value);
+
+    // Check if the selected value is "Option 1" and set isOption1Selected accordingly
+    if (options[value - 1]?.index === 1) {
+      setIsOption1NotSelected(false);
+      alert("fine, then I'll just go")
+    } else {
+      setIsOption1NotSelected(true);
+      alert("Thank you for your input")
+    }
+  };
 
   return (
-    <div className="App" >
+    <>
+    {isOption1NotSelected && <div className="App" >
 
       <h1>To Do List</h1>
 
@@ -202,6 +231,9 @@ const App = () => {
                   <div key={index} className="card m-2">
                     <button className="btn btn- card-body fs-3" onClick={() => {
                       deleteStep(step.index)
+                      //Make them not buttons
+                      //When delete step is clicked, show the radio input component
+                      //link that up to what is currently deleting a step
                     }}>{step.value}</button>
                   </div>
                 ))}
@@ -223,13 +255,31 @@ const App = () => {
                     <button className="btn btn-primary m-3" onClick={addNewStep}>Add Item</button>
                   </>
                 )}
+
+                {deletingStep && (
+                  <GenericRadioComponent contents={selectedItem.steps} selectedValue={deletingStepIndex}
+                 onClick={
+                  () => {
+                    deleteStep(deletingStepIndex)
+                    console.log(deletingStepIndex)
+                  }
+                }
+                  />
+                )}
               </>
             )}
           </div>
         )}
-
+        <footer>
+          <div>How do you feel about this website?</div>
+          <GenericSelect 
+          contents={options}
+        selectedValue={selectedOption}
+        onChange={handleSelectChange}/>
+        </footer>
       </div>
-    </div>
+    </div> }
+    </>
   );
 };
 
